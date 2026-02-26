@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: taylaq-food
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app --workers 2 --threads 2 --timeout 60"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: taylaq-db
+          property: connectionString
+      - key: SECRET_KEY
+        sync: false
+
+databases:
+  - name: taylaq-db
+    plan: free
